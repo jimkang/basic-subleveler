@@ -18,10 +18,12 @@
   },
   "homepage": "https://github.com/jimkang/basic-subleveler",
   "devDependencies": {
+    "queue-async": "^1.0.7",
     "tape": "^3.0.3"
   },
   "dependencies": {
     "level": "^1.0.0",
-    "level-sublevel": "^6.4.6"
+    "level-sublevel": "^6.4.6",
+    "lodash": "^3.9.3"
   }
 }

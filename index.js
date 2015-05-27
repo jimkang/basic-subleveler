@@ -1,5 +1,6 @@
 var level = require('level');
 var sublevel = require('level-sublevel');
+var _ = require('lodash');
 
 function setUpSubleveledDB(opts) {
   // opts:
@@ -29,7 +30,9 @@ function setUpSubleveledDB(opts) {
   };
 
   for (var levelname in opts.sublevels) {
-    db[levelname] = subleveldb.sublevel(opts.sublevels[levelname]);
+    var sl = subleveldb.sublevel(opts.sublevels[levelname]);
+    sl.readAllValues = _.curry(readAllValuesFromSublevel)(sl);
+    db[levelname] = sl;
   }
 
   return db;
@@ -53,6 +56,8 @@ function readAllValuesFromSublevel(sublevel, done) {
     }
   }
 }
+
+// TODO: readAllKeys.
 
 module.exports = {
   setUpSubleveledDB: setUpSubleveledDB,
