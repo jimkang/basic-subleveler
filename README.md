@@ -17,24 +17,60 @@ Usage
 -----
 
     var basicSubleveler = require('basic-subleveler');
+    var level = require('level');
+    var queue = require('queue-async');
+
+    var leveldb = level(
+      __dirname + '/test.db',
+      {
+        valueEncoding: 'json'
+      }
+    );
+
     var db = basicSubleveler.setUpSubleveledDB({
-      dbLocation: 'test.db',
+      db: leveldb,
       sublevels: {
         meats: 'm',
         vegetables: 'v'
       }
     });
 
-    // Will return an object with `close` method and `meats` and `vegetables` sublevels. You can do stuff with them. Then:
+    // Will decorate the LevelDB instance with `meats` and `vegetables`
+    // sublevels. You can do stuff with them.
 
-    db.close(reportClosed);
+    var q = queue();
 
-    function reportClosed(error) {
+    q.defer(db.vegetables.put, 'broccoli', 'tasty');
+    q.defer(db.vegetables.put, 'tomato', 'juicy');
+    q.defer(db.vegetables.put, 'arugula', 'elitist');
+
+    q.awaitAll(readVegetables);
+
+    function readVegetables(error) {
       if (error) {
-        console.log('Error while closing db.'')
         console.log(error);
       }
+      else {
+        db.vegetables.readAllValues(logVegetables);
+      }
     }
+
+    function logVegetables(error, vegetables) {      
+      if (error) {
+        console.log(error);
+      }
+      else {
+        console.log(vegetables);
+      }
+    }
+
+Output:
+
+  [
+    'tasty',
+    'juicy',
+    'elitist'
+  ]
 
 Tests
 -----

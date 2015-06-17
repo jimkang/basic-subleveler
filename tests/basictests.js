@@ -1,12 +1,24 @@
 var test = require('tape');
 var basicSubleveler = require('../index');
 var queue = require('queue-async');
+var level = require('level');
+
+var leveldb;
+
+((function prepare() {
+  leveldb = level(
+    __dirname + '/test.db',
+    {
+      valueEncoding: 'json'
+    }
+  );
+})());
 
 test('Basic test', function basicTest(t) {
   t.plan(11);
 
   var db = basicSubleveler.setUpSubleveledDB({
-    dbLocation: __dirname + '/test.db',
+    db: leveldb,
     sublevels: {
       meats: 'm',
       vegetables: 'v'
@@ -47,6 +59,6 @@ test('Basic test', function basicTest(t) {
   }
 
   function checkClose(error) {
-    t.ok(!error, 'There is no error while closing the underlying db.');
+    t.ok(!error, 'There is no error while closing the LevelDB instance.');
   }
 });
