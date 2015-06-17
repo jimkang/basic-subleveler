@@ -3,3 +3,6 @@ test: delete-test-db
 
 delete-test-db:
 	rm -rf tests/test.db
+
+pushall:
+	git push origin master && npm publish
