@@ -1,6 +1,8 @@
 basic-subleveler
 ================
 
+Versions 2.x have only been tested on Node 12.
+
 Handles boilerplate setup for one-level-deep LevelDB [sublevel](https://github.com/dominictarr/level-sublevel) databases:
 
 - Creates levels using the names and namespaces you provide.
@@ -55,7 +57,7 @@ Usage
       }
     }
 
-    function logVegetables(error, vegetables) {      
+    function logVegetables(error, vegetables) {
       if (error) {
         console.log(error);
       }

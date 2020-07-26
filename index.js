@@ -1,6 +1,6 @@
 var level = require('level');
 var sublevel = require('level-sublevel');
-var _ = require('lodash');
+var curry = require('lodash.curry');
 
 function setUpSubleveledDB(opts) {
   // opts:
@@ -12,7 +12,7 @@ function setUpSubleveledDB(opts) {
 
   for (var levelname in opts.sublevels) {
     var sl = subleveldb.sublevel(opts.sublevels[levelname]);
-    sl.readAllValues = _.curry(readAllValuesFromSublevel)(sl);
+    sl.readAllValues = curry(readAllValuesFromSublevel)(sl);
     leveldb[levelname] = sl;
   }
 
