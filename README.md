@@ -1,7 +1,9 @@
 basic-subleveler
 ================
 
-Versions 2.x have only been tested on Node 12.
+![Node.js CI](https://github.com/jimkang/basic-subleveler/workflows/Node.js%20CI/badge.svg)
+
+2.x versions have only been tested on Node 12 and 10. 1.x versions worked on Node 8, but do not work on Node 10 and up.
 
 Handles boilerplate setup for one-level-deep LevelDB [sublevel](https://github.com/dominictarr/level-sublevel) databases:
 
